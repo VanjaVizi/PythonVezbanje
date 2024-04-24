@@ -415,11 +415,169 @@ def podlista(a,b):
 listaA = [1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
 listaB = [1, 1, 2, 3, 5]
 print(podlista(listaA,listaB))
+
+#%%
+#19.	Data su dva tekstualna fajla u kojima se nalaze brojevi. Napisati funkciju koja ispisuje brojeve
+#       koji se pojavljuju u obe datoteke.
+
+resenje=[]
+lista1=[]
+lista2=[]
+# 1
+# 2
+# 3
+# EOF
+with open("datoteka1.txt") as dat1:
+    linija = dat1.readline()   #"1"
+    while linija:
+        lista1.append(int(linija))
+        linija = dat1.readline()
+
+with open("datoteka2.txt") as dat2:
+    linija = dat2.readline()   #"1"
+    while linija:
+        lista2.append(int(linija))
+        linija = dat2.readline()
+
+for element in lista1:
+    if element in lista2:
+        resenje.append(element)
+
+print(resenje)
+#%%
+
+
+
+
+
 #%%
 #24.	Napišite funkciju (povezi_po_indeksima) koja prima dve liste stringova jednake dužine
 # i vraća novu listu dobijenu spajanjem ulaznih lista po indeksima, odnosno povezujući elemente
-# koji se nalaze na istim pozicijama u listi. Primer: Ulazne liste: list1 = ["M", "na", "i", "Ke"],
-# list2 = ["y", "me", "s", "lly"] Izlaz: ['My', 'name', 'is', 'Kelly']
+# koji se nalaze na istim pozicijama u listi. Primer:
+# Ulazne liste: list1 = ["M", "na", "i", "Ke"],
+#               list2 = ["y", "me", "s", "lly"]
+#               Izlaz: ['My', 'name', 'is', 'Kelly']
+
+def povezi_po_indeksima(list1, list2):
+    izlaz=[]
+    for i in range(0,len(list2)):
+        novaRec =  list1[i]+list2[i]
+        izlaz.append(novaRec)
+
+    return izlaz
+
+
+def povezi_po_indeksima2(list1, list2):
+    izlaz=[]
+
+    for i1,i2 in zip(list1,list2): # (M,y),(na,me),(i,s),(Ke,lly)
+        izlaz.append(i1+i2)
+
+    return izlaz
+list1 = ["M", "na", "i", "Ke"]
+list2 = ["y", "me", "s", "lly"]
+izlaz = povezi_po_indeksima2(list1,list2)
+print(izlaz)
+
+#%%
+
+#25.	Napišite funkciju (provera_lozinki) koja prihvata string koji
+# sadrzi lozinke za proveru odvojene zarezom. Funkcija proverava njihovu validnost
+# koristeći sledeće kriterijume:
+#1. Najmanje 1 slovo između [a-z] tj. najmanje 1 malo slovo
+#2. Najmanje 1 broj između [0-9] tj. najmanje 1 cifra
+#3. Najmanje 1 slovo između [A-Z] tj. najmanje 1 veliko slovo
+#4. Najmanje 1 od sledećih znakova: $,#,@
+#5. Dužina u opsegu 6-12 (uključujući 6 i 12)
+# Lozinke koje odgovaraju kriterijumima treba da budu prikazane u jednom redu odvojene zarezom.
+
+def provera_lozinki(lozinke):  #"adsads,dsasda,dsada,dsda"
+    lista = lozinke.split(",")  #["Dsadadas","dsdada","Dsdadsa"]
+    novaLista=[]
+    for lozinka in lista:
+        uslovi = [False]*5  #False False False False False
+        imaMaloSlovo=False
+        imaVelikoSlovo=False
+        imaCifru=False
+        imaSpecKar=False
+        dobraDuzina=False
+
+        if len(lozinka)>=6 and len(lozinka)<=12:
+            dobraDuzina=True  #uslovi[0]=True
+
+        for karakter in lozinka:
+            if karakter.islower():
+                imaMaloSlovo=True #uslovi[1]=True
+            elif karakter.isupper():
+                imaVelikoSlovo=True #uslovi[2]=True
+            elif karakter.isdigit():
+                imaCifru=True #uslovi[3]=True
+            elif karakter in ["$","#","@"]:
+                imaSpecKar=True #uslovi[4]=True
+        if all(uslovi):
+            novaLista.append(lozinka)
+        if (dobraDuzina and imaMaloSlovo and imaVelikoSlovo  and imaCifru and imaSpecKar):
+            novaLista.append(lozinka)
+    return novaLista
+
+lozinke = "aaa,BBB,Baaa1$aaa,Baaa222%aaa,Baaa222%aaaaaaaaaa"
+resenje = provera_lozinki(lozinke)
+print(resenje)
+#%%
+
+#  26.	Napišite funkciju (stanje_servera) koja prima izveštaj (kao string) o stanju nekoliko servera.
+#  Svaki red izveštaja se odnosi na jedan server i ima sledeći format: "Server<server_name> is<up/down>".
+#  Obratite pažnju
+#  da neki redovi mogu biti prazni. Takođe, neki serveri mogu biti pomenuti više puta, u kom slučaju,
+#  najnoviji status (poslednji ispisan) bi trebalo smatrati važećim. Funkcija treba da obradi
+#  izveštaj i odštampa:
+#  - ukupan broj servera pomenutih u izveštaju
+#  - procenat servera koji ne rade
+#  - imena servera koji ne rade (ako ih ima)
+
+
+def stanje_servera(izvestaj):
+    lista = izvestaj.split("\n")
+    ukupnoServera=0
+    brojacNeRade=0
+    naziviNeRade=[]
+    stanjaSvihServera={}   #"s1":"down","s3":"up"
+    for linija in lista:
+        if linija.strip():
+            deloviLinije = linija.split(" ") # ["Server","s1" "is" "up"]
+            nazivServera = deloviLinije[1]
+            stanjeServera = deloviLinije[3]
+            stanjaSvihServera[nazivServera]=stanjeServera
+
+    for ns,ss  in stanjaSvihServera.items():  #(s1,up), (s3,down)
+        ukupnoServera = ukupnoServera+1
+        if ss=="down":
+            brojacNeRade=brojacNeRade+1
+            naziviNeRade.append(ns)
+
+    return ukupnoServera,brojacNeRade,naziviNeRade
+
+izvestaj = """
+Server s1 is up
+
+Server s3 is up
+Server s4 is down
+Server s1 is down
+"""
+ukupnoServera,brojacNeRade,naziviNeRade = stanje_servera(izvestaj)
+
+print("Ukupno servera: ",ukupnoServera)
+print("Procenat servera koji ne rade: ",brojacNeRade*100/ukupnoServera)
+print("Nazivi servera koji ne rade: ", naziviNeRade)
+#%%
+
+
+#27.	Napišite funkciju (rotiraj_niz) koja prima niz celih brojeva i broj m, i rotira niz za
+# m mesta udesno. Na primer, ako je niz [1, 2, 3, 4, 5] i m = 2, rezultat treba da bude
+# [4, 5, 1, 2, 3].
+
+
+
 
 
 
