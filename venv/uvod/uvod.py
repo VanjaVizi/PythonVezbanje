@@ -570,11 +570,388 @@ print("Ukupno servera: ",ukupnoServera)
 print("Procenat servera koji ne rade: ",brojacNeRade*100/ukupnoServera)
 print("Nazivi servera koji ne rade: ", naziviNeRade)
 #%%
+#PO KLJUCU
+myDict = {'tanja': 10, 'maja': 9, 'sanja': 15, 'nikola': 2, 'aleksa': 32}
+print(myDict.keys())
+lista =list(myDict.keys())
+lista.sort()
+print(lista)
+sortiranRecnik = {}
+#'aleksa': 32
+# 'maja': 9
+for element in lista:   #['aleksa','maja'...]
+    sortiranRecnik[element] = myDict[element]
+
+soritraniRecnik2 = { element: myDict[element] for element in  lista}
+# soritraniRecnik2 = { aleksa: 32 for element in  lista}
+
+#PO VREDNOSTI
+import operator
+recnik = {'tanja': 10, 'maja': 9, 'sanja': 15, 'nikola': 2, 'aleksa': 32}
+print(recnik.items())  # ('tanja',10),(maja,9)...
+tupple= sorted(recnik.items(), key=operator.itemgetter(1))
+
+print(tupple)
+noviRecnik = {}
+
+for kljuc,vrednost in tupple:
+    noviRecnik[kljuc]=vrednost
+    #noviRecnik[nikola]=2
+print(noviRecnik)
+#%%
+#PRISTUP NEPOSTOJECEM KLJUCU
+d = { 'a' : 1 , 'b' : 2 }
+
+if 'c' in d:
+    print(d['c'])
+else:
+    print("GRESKA")
+
+print(d['a'])
 
 
-#27.	Napišite funkciju (rotiraj_niz) koja prima niz celih brojeva i broj m, i rotira niz za
-# m mesta udesno. Na primer, ako je niz [1, 2, 3, 4, 5] i m = 2, rezultat treba da bude
-# [4, 5, 1, 2, 3].
+#%%
+#3.	Zbir svih elemenata rečnika
+#Input : {‘a’: 100, ‘b’:200, ‘c’:300}
+
+def zbirElemenataRecnika(recnik):
+    zbir = 0
+    for element in recnik:
+       # print(element)
+        zbir = zbir + recnik[element]
+    return zbir
+def zbirElemenataRecnika2(recnik):
+    listaVrednosti=[]
+    for element in recnik:
+        listaVrednosti.append( recnik[element])
+
+    #[100,200,300]
+    return sum(listaVrednosti)
+dict = {'a': 100, 'b': 200, 'c': 300}
+print(zbirElemenataRecnika(dict))
+#%%
+studenti = [
+    {'ime': 'Ana', 'ocena': 9},
+    {'ime': 'Marko', 'ocena': 8},
+    {'ime': 'Jovana', 'ocena': 10},
+    {'ime': 'Stefan', 'ocena': 7}
+]
+suma = 0
+brojStudentana =  len(studenti)
+for student in studenti:
+   # print(student)
+    print( f"{student['ime']} - {student['ocena']}")
+    suma += student['ocena']
+
+prosek =  suma/brojStudentana
+print(prosek)
+# Ana - 9
+# Marko - 8
+
+
+
+knjige = [
+    {'naslov': 'Harry Potter', 'autor': 'J.K. Rowling', 'godina': 1997},
+    {'naslov': 'Lord of the Rings', 'autor': 'J.R.R. Tolkien', 'godina': 1954},
+    {'naslov': 'Pride and Prejudice', 'autor': 'Jane Austen', 'godina': 1813}
+]
+
+with open("knjige.txt", "w") as knjige_file:
+    for knjiga in knjige:
+        knjige_file.write(f"Naslov: {knjiga['naslov']}, Autor: {knjiga['autor']},{knjiga['godina']}\n")
+
+
+#%%
+import operator
+studenti = [
+    {'ime': 'Ana', 'ocena': 9},
+    {'ime': 'Marko', 'ocena': 8},
+    {'ime': 'Jovana', 'ocena': 10},
+    {'ime': 'Stefan', 'ocena': 7}
+]
+print(sorted(studenti, key=operator.itemgetter('ocena'),reverse=True))
+
+print(sorted(studenti, key=operator.itemgetter('ime')))
+#%%
+#7.	Napisati funkciju koja prima celobrojnu vrednost (n) i   generiše rečnik sa unetim
+# parovima u obliku x:S(x), gde je x  broj između 1 i n, a S(x) = 1 + 2 + ... + x.
+# Funkcija takođe ispisuje rečnik u opadajućem redosledu ključeva,
+# na sledeći način (za n=5):
+# 5: 1+2+3+4+5=15
+# 4: 1+2+3+4=10
+# 3: 1+2+3=6
+# 2: 1+2=3
+# 1: 1=1
+def generisi_recnik(n):
+    recnik = {}  # recnik = dict()
+    for kljuc in range(n,0,-1):
+        vrednost =  sum(range(1,kljuc+1))
+        recnik[kljuc] =vrednost
+        sumaString = "+".join([str(i) for i in range(1,kljuc+1)])
+        print(f"{kljuc}:{sumaString}={vrednost}")
+
+    print(recnik)
+
+n = 5
+generisi_recnik(n)
+
+
+
+#%%
+#8.	Napisati funkciju koja kreira rečnik iz dve date liste, tako što elementi prve
+# liste postaju ključevi, dok odgovarajući elementi druge liste postaju vrednosti.
+# Ispisati rečnik sortiran na osnovu vrednosti elemenata. (savet: koristiti funkciju itemgetter()
+# iz modula operator) Primer: lista zemalja i lista nacionalnih jela tih zemalja treba da
+# se pretvori u rečnik gde su ključevi imena zemalja, a vrednosti odgovarajuća jela.
+
+
+from itertools import zip_longest
+import operator
+def spojiDveListeURecnik(kljucevi,vrednosti):
+    recnik = {} #dict()
+    for kljuc,vrednost in zip_longest(kljucevi,vrednosti,fillvalue="NA"):
+        recnik[kljuc]=vrednost
+
+    print(recnik)
+    sortiraniRecnik =  dict(sorted(recnik.items(), key=operator.itemgetter(1)))
+    print(sortiraniRecnik)
+
+zemlje = ['Italija', 'Francuska', 'Španija', 'Grčka','Srbija']
+jela = ['Pizza', 'Baguette', 'Paella', 'Moussaka']
+spojiDveListeURecnik(zemlje, jela)
+
+
+
+
+
+#%%
+
+#9.	Napisati funkciju koja prima string kao ulazni parametar i računa broj cifara,
+# slova i znakova interpunkcije (.,!?;:) u datom stringu. Funkcija vraća rečnik sa izračunatim vrednostima.
+
+#das487778.!
+
+#{cifre:5,slova:20,znaci:5}
+def stringRecnik1(string):
+    brojacCifre=0
+    brojacSlova=0
+    brojacZnaci=0
+
+    for karakter in string:
+        if karakter.isalpha():
+            brojacSlova+=1;
+        elif karakter.isdigit():
+            brojacCifre+=1;
+        elif karakter in ('.,!?;:'):
+            brojacZnaci+=1;
+
+    recnik = {}
+    recnik["slova"]=brojacSlova
+    recnik["cifre"]=brojacCifre
+    recnik["znaci"]=brojacZnaci
+
+from collections import defaultdict
+def stringRecnik2(string):
+    recnik = defaultdict(int)
+
+    for karakter in string:
+        if karakter.isalpha():
+            recnik["slova"]+=1;
+        elif karakter.isdigit():
+            recnik["cifre"]+=1;
+        elif karakter in ('.,!?;:'):
+            recnik["znaci"]+=1;
+    return recnik
+string = "sdasd:.784"
+print(stringRecnik2(string))
+
+
+
+
+
+
+#%%
+#10.	Napisati funkciju koja prima listu web adresa (URL) različitih organizacija.
+# Izračunati broj adresa za svaki sufiks (npr., com, org, net) prisutan u listi.
+# Kreirati i vratiti rečnik sa izračunatim vrednostima (ključevi su sufiksi web adresa, vrednosti
+# su odgovarajući brojevi).
+from collections import defaultdict
+def sufiksiULRRecnik(adrese):
+    recnik=defaultdict(int)
+    #www.vanjavizicasovi.com
+    for adresa in adrese:
+        #print(adresa.split(".")[-1])
+        recnik[adresa.split(".")[-1]]+=1
+
+    print(recnik)
+adrese = ['www.example.com', 'www.organization.org', 'www.test.net', 'www.example2.com']
+sufiksiULRRecnik(adrese)
+
+
+
+from collections import Counter
+def sufiksiULRRecnik2(adrese):
+    sufiksi = [ adresa.split(".")[-1] for adresa in adrese ]
+    print(sufiksi)
+    brojaci = Counter(sufiksi)
+    print(brojaci)
+    recnik = dict(brojaci)
+    print(recnik)
+adrese = ['www.example.com', 'www.organization.org', 'www.test.net', 'www.example2.com']
+sufiksiULRRecnik2(adrese)
+
+
+def sufiksiULRRecnik3(urls):
+    d = defaultdict(int)
+    for url in urls:
+        #          www.fon.bg.ac.rs
+        _, suffix = url.rsplit(".",maxsplit=1)
+        suffix = suffix.rstrip('/')
+        d[suffix] += 1
+    return dict(d)
+
+
+
+
+#%%
+
+# 11.	Napisati funkciju koja prima deo teksta i računa frekvenciju tokena u tekstu
+# (podrazumeva se da je token niz uzastopnih karaktera (string) između dva razmaka).
+# Izračunati frekvenciju tokena na način neosetljiv na velika i mala slova. Tokeni i
+# njihove frekvencije treba sačuvati u rečniku (tokeni kao ključevi, frekvencije kao
+# vrednosti). Funkcija ispisuje rezultujući rečnik nakon što sortira tokene alfabetski.
+from collections import defaultdict
+import operator
+def funkcijaRecnikTokeni(string):
+    d = defaultdict(int)
+    tokens = string.lower().split(" ") #[ovo,je,neki,test, tekst, test, test]
+    for token in tokens:
+        d[token] += 1
+        #d['je'] += 1
+    for tok, freq in sorted(d.items()):
+        print(f"{tok}:{freq}")
+
+tekst = "Ovo je neki TEST tekst test TEST"
+funkcijaRecnikTokeni(tekst)
+
+#%%
+
+
+
+from collections import Counter
+
+def funkcijaRecnikTokeni2(string):
+    tokens = string.lower().split() #[ovo,je,neki,test, tekst, test, test]
+    counter = Counter(tokens)
+    print(counter)
+    # Sortiranje rečnika po ključevima u rastućem abecednom redosledu
+    for tok, freq in sorted(d.items()):
+        print(f"{tok}:{freq}")
+
+tekst = "Ovo je neki TEST tekst test TEST"
+print(funkcijaRecnikTokeni2(tekst))
+#%%
+# Nakon testiranja funkcije, izmeniti je tako da:
+# - tokeni budu očišćeni od bilo kakvih suvišnih karaktera (npr. razmaci ili interpunkcijski znaci)
+#           pre dodavanja u rečnik
+# - samo tokeni sa najmanje 3 karaktera su dodati u rečnik
+# - pre ispisa, unosi u rečnik su sortirani: prvo u opadajućem redosledu frekvencije tokena,
+#       a zatim u rastućem abecednom redosledu
+from collections import defaultdict
+import operator
+def funkcijaRecnikTokeni3(string):
+    d = defaultdict(int)
+    tokens = string.lower().split(" ")
+    for token in tokens:
+        token=token.strip(',.?!:; ')
+        if(len(token)>=3):
+            d[token] += 1
+
+    for tok, freq in sorted(sorted(d.items()),key=operator.itemgetter(1), reverse =  True):
+        print(f"{tok}:{freq}")
+
+
+tekst = "Ovo je neki TEST tekst test TEST"
+print(funkcijaRecnikTokeni3(tekst))
+
+
+
+
+
+#%%
+#  12.	Napisati funkciju koja prima sekvencu lozinki odvojenih zarezima i proverava
+#  njihovu validnost koristeći sledeće kriterijume:
+#  1. Najmanje 1 slovo između [a-z] => Najmanje 1 malo slovo
+#  2. Najmanje 1 broj između [0-9] => Najmanje 1 cifra
+#  3. Najmanje 1 slovo između [A-Z] => Najmanje 1 veliko slovo
+#  4. Najmanje 1 od ovih znakova: $,#,@
+#  5. Dužina u rasponu 6-12 (uključujući 6 i 12)
+#Funkcija kreira i vraća rečnik sa proverenim lozinkama kao ključevima,
+# gde vrednost ključa treba da bude lista sa: - jednim elementom "Ispravna lozinka",
+# ako se odgovarajuća lozinka pokazala validnom - identifikovanim problemima, ako lozinka
+# nije validna
+def password_check(lozinke):
+    d = dict()
+    for p in [p.lstrip() for p in lozinke.split(',')]: #["Abcd@1234" , a#b2C6, XYZ@123, password1, passw0rd123]
+        problemi = []
+        if not any([ch.islower() for ch in p]): #[FALSE,TRUE...]
+            problemi.append("no lower case letters")
+        if not any([ch.isdigit() for ch in p]):  #[FALSE FALSE FALSE... TRUE]
+            problemi.append("no digits")
+        if not any([ch.isupper() for ch in p]):
+            problemi.append("no upper case letters")
+        if not any([ch in '$#@' for ch in p]):
+            problemi.append("no special characters '@#$'")
+        if len(p) < 6 or len(p) > 12:
+            problemi.append("length should be in the [6,12] range")
+        d[p] = ['Ispravna lozinka'] if len(problemi) == 0 else problemi
+        # if len(problemi) == 0:
+        #     d[p] = ['Ispravna lozinka']
+        # elif
+        #     d[p] = problemi
+    return d
+
+
+lozinke = "Abcd@1234 , a#b2C6, XYZ@123, password1, passw0rd123"
+print(password_check(lozinke))
+
+
+
+
+#%%
+# 13.	Napisati funkciju koja kao ulaz prima listu rečnika sa podacima o članovima sportskog tima.
+# Svaki rečnik sadrži sledeće podatke o jednom članu tima: ime, godine i takmičarski rezultat (0-100).
+# Na primer: {ime:Bob, godine:19, rezultat:55.5} Funkcija računa i ispisuje sledeće statistike:
+# - prosečne (srednje) godine članova tima
+# - ime igrača sa najnižim rezultatom među onima mlađim od 21 godine
+# - ime igrača sa najvišim rezultatom među onima mlađim od 21 godine
+# Na kraju, funkcija ispisuje listu članova sortiranu po rezultatima članova(od najvišeg do najnižeg).
+# Savet: modul 'statistics' pruža funkcije za potrebne statistike
+
+
+from statistics import mean, quantiles
+def team_stats(team_data):
+
+    godine= [member['godine'] for member in team_data]
+    print(godine)  #[ 19,25,20,22]
+    mean_age = mean(godine)
+    print(f"Average age of team members: {mean_age}")
+
+    clanoviUnder21 = [member for member in team_data if member['godine'] < 21]
+    worst_under21 = min(clanoviUnder21, key=itemgetter('rezultat'))
+    print(f"Worst player under 21 is {worst_under21['ime']}")
+
+    best_under21 = max(clanoviUnder21, key=itemgetter('rezultat'))
+    print(f"Best player under 21 is {best_under21['ime']}")
+
+lista_clanova = [
+    {'ime': 'Bob', 'godine': 19, 'rezultat': 55.5},
+    {'ime': 'Alice', 'godine': 25, 'rezultat': 70.8},
+    {'ime': 'Charlie', 'godine': 20, 'rezultat': 60.2},
+    {'ime': 'David', 'godine': 22, 'rezultat': 80.1}
+]
+# Poziv funkcije za izračunavanje i ispisivanje statistika
+team_stats(lista_clanova)
 
 
 
@@ -583,3 +960,301 @@ print("Nazivi servera koji ne rade: ", naziviNeRade)
 
 
 
+#map(fja,lista), filter(fja,lista), reduce
+#lambda izrazi
+#%%
+def kvadrat(x):
+    return x ** 2
+
+brojevi = [1, 2, 3, 4, 5]
+kvadrati = map(kvadrat, brojevi)
+print(list(kvadrati))  # Output: [1, 4, 9, 16, 25]
+
+#%%
+def je_paran(x):
+    return x % 2 == 0
+
+brojevi = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+parni = filter(je_paran, brojevi)
+print(list(parni))  # Output: [2, 4, 6, 8, 10]
+#%%
+
+from functools import reduce
+
+def saberi(x, y):
+    return x + y
+
+brojevi = [1, 2, 3, 4, 5]
+suma = reduce(saberi, brojevi)
+print(suma)  # Output: 15
+
+#%%
+# Recnik + Filter
+def veci_od_5(item):
+    return item[1] > 5
+
+recnik = {'a': 3, 'b': 7, 'c': 2, 'd': 8}
+filtrirani_recnik = dict(filter(veci_od_5, recnik.items()))  #[(a,3),(b,7)..]
+print(filtrirani_recnik)  # Output: {'b': 7, 'd': 8}
+
+#%%
+
+# Recnik + Map
+def udvostruci(item):
+    return (item[0], item[1] * 2)
+
+recnik = {'a': 3, 'b': 7, 'c': 2, 'd': 8}
+udvostruceni_recnik = dict(map(udvostruci, recnik.items()))
+print(udvostruceni_recnik)  # Output: {'a': 6, 'b': 14, 'c': 4, 'd': 16}
+#%%
+# Recnik + Reduce
+from functools import reduce
+
+def saberi(acc, item):
+    return acc + item[1]
+
+recnik = {'a': 3, 'b': 7, 'c': 2, 'd': 8}
+suma_vrednosti = reduce(saberi, recnik.items(), 0)
+print(suma_vrednosti)  # Output: 20
+
+
+#%%
+add = lambda x, y: x + y
+print(add(3, 5))  # Output: 8
+
+multiply = lambda x, y: x * y
+print(multiply(4, 6))  # Output: 24
+
+is_even = lambda x: x % 2 == 0  #False
+print(is_even(7))  # Output: False
+print(is_even(8))  # Output: True
+
+#%%
+words = ["apple", "banana", "cherry", "date"]
+sorted_words = sorted(words, key=lambda x: len(x))
+print(sorted_words)  # Output: ['date', 'apple', 'banana', 'cherry']
+
+def duzina_reci(rec):
+    return len(rec)
+
+words = ["apple", "banana", "cherry", "date"]
+sorted_words = sorted(words, key=duzina_reci)
+print(sorted_words)  # Output: ['date', 'apple', 'banana', 'cherry']
+
+
+
+#%%
+numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+even_numbers = list(filter(lambda x: x % 2 == 0, numbers))
+print(even_numbers)  # Output: [2, 4, 6, 8, 10]
+
+numbers = [1, 2, 3, 4, 5]
+squared_numbers = list(map(lambda x: x**2, numbers))
+print(squared_numbers)  # Output: [1, 4, 9, 16, 25]
+
+
+from functools import reduce
+numbers = [1, 2, 3, 4, 5]
+sum_of_numbers = reduce(lambda x, y: x + y, numbers)
+print(sum_of_numbers)  # Output: 15
+
+#%%
+students = {
+    1: {'name': 'John', 'age': 21},
+    2: {'name': 'Emma', 'age': 19},
+    3: {'name': 'Alex', 'age': 22},
+    4: {'name': 'Sophia', 'age': 20}
+}
+# (1,{'name': 'John', 'age': 21},)
+# ( 2, {'name': 'Emma', 'age': 19},)
+#
+# Filtriranje studenata mlađih od 21 godine
+young_students = dict(filter(lambda item: item[1]['age'] < 21, students.items()))
+print(young_students)
+
+# Mapiranje imena studenata na velika slova
+uppercased_names = dict(map(lambda item: (  item[0], item[1]['name'].upper()  ), students.items()))
+print(uppercased_names)
+
+from functools import reduce
+# Reduce funkcija za računanje ukupnog broja studenata
+total_students = reduce(lambda acc, item: acc + 1, students.items(), 0)
+print(total_students)
+#%%
+
+
+
+
+#%%
+#7.	Napišite funkciju 'compute_product' koja prima proizvoljan broj numeričkih vrednosti i
+# izračunava njihov proizvod.Funkcija takođe prima imenovani argument "squared" sa podrazumevanom
+# vrednošću False, koji određuje da li treba koristiti date numeričke vrednosti kakve jesu ili
+# njihove kvadrate. Izračunati proizvod je povratna vrednost funkcije. Implementirajte funkciju
+# na dva različita načina:
+# 1) koristeći for petlju
+# 2) koristeći funkciju reduce() iz modula functools zajedno sa odgovarajućom lambda funkcijom.
+
+from functools import reduce
+def compute_product1(*brojevi, squared=False):
+    resenje = 1
+    for broj in brojevi:
+        #resenje *=  broj if not squared else broj**2
+        if squared:
+            resenje *= broj ** 2
+        else:
+            resenje *= broj
+    return resenje
+
+def compute_product2(*brojevi, squared=False):
+    if squared:
+        squared_numbers = map(lambda x: x ** 2, brojevi)
+        return reduce(lambda x, y: x * y, squared_numbers, 1)
+    else:
+        return reduce(lambda x, y: x * y, brojevi, 1)
+
+    # return reduce(lambda x,y: x*y, [broj**2 if squared else broj for broj in brojevi]   )
+
+result1 = compute_product1(2, 3, 4,squared=True)
+print(result1)
+result2 = compute_product2(2, 3, 4)
+print(result2)
+#%%
+
+#8.	Napišite funkciju 'select_strings' koja prima proizvoljan broj stringova i vraća listu
+# strigova koji imaju isto prvo i poslednje slovo (nezavisno od veličine slova) i ukupan broj
+# jedinstvenih karaktera je veći od datog praga. Prag je imenovani argument funkcije sa
+# podrazumevanom vrednošću 3. Implementirajte funkciju na tri različita načina:
+# 1) koristeći for petlju
+# 2) koristeći list comprehension
+# 3) koristeći funkciju filter() zajedno sa odgovarajućom lambda funkcijom.
+
+def select_strings1(*strings, prag=3):
+    selected = []
+    for s in strings:
+        #s=s.lower();
+        if s[0].lower() == s[-1].lower() and len(set(s.lower())) > prag:
+            selected.append(s)
+    return selected
+
+def select_strings2(*strings, prag=3):
+    return [s for s in strings if s[0].lower() == s[-1].lower() and len(set(s.lower())) > prag]
+
+def select_strings3(*strings, prag=3):
+    return list(filter(lambda s:s[0].lower() == s[-1].lower() and len(set(s.lower())) > prag, strings))
+
+
+# Primer poziva funkcija sa argumentima
+result1 = select_strings1("apple", "banana", "Civic", "date", prag=2)
+print(result1)
+
+result2 = select_strings2("apple", "banana", "Civic", "date")
+print(result2)
+
+result3 = select_strings3("apple", "banana", "Civic", "date", prag=2)
+print(result3)
+
+#%%
+
+#9.	Napišite funkciju 'process_product_orders' koja prima listu porudžbina proizvoda, gde je svaka porudžbina
+# 4-tuple oblika (order_id, product_name, quantity, price_per_item). Funkcija vraća rečnik sa elementima oblika
+# <order_id: total_price> , gde je ukupna cena za porudžbinu proizvod količine i cene po stavci.
+# Funkcija takođe prima dva imenovana  argumenta koja mogu uticati na izračunatu ukupnu cenu:
+# - popust - popust, izražen u procentima, koji se primenjuje na ukupnu cenu;
+#       podrazumevana vrednost ovog argumenta je None
+# - troškovi dostave - troškovi dostave koji se dodaju na porudžbine sa ukupnom cenom manjom od 100;
+#       podrazumevana vrednost ovog argumenta je 10. Implementirajte funkciju na tri različita načina:
+#   1) koristeći for petlju
+#  2) koristeći dictionary comprehension
+#   3) koristeći funkciju map() zajedno sa odgovarajućom pomoćnom funkcijom
+
+def process_product_orders1(orders, discount=None, shipping=10):
+    def compute_total_price(quantity, price_per_item):
+        tot_price = quantity * price_per_item
+        tot_price *= (100-discount)/100 if discount else 1
+        tot_price += shipping if tot_price<100 else 0
+        return tot_price
+    processed_orders = []
+    for order_id, _, quantity, price_per_item in orders:
+        tot_price = compute_total_price(quantity, price_per_item)
+        processed_orders.append((order_id, tot_price))
+    return dict(processed_orders)
+def process_product_orders2(orders, discount=None, shipping=10):
+    def compute_total_price(quantity, price_per_item):
+        tot_price = quantity * price_per_item
+        tot_price *= (100-discount)/100 if discount else 1
+        tot_price += shipping if tot_price<100 else 0
+        return tot_price
+
+    return {order_id: compute_total_price(quantity, price_per_item) for order_id, _, quantity, price_per_item in orders}
+
+def process_product_orders3(orders, discount=None, shipping=10):
+    def compute_total_price(quantity, price_per_item):
+        tot_price = quantity * price_per_item
+        tot_price *= (100-discount)/100 if discount else 1
+        tot_price += shipping if tot_price<100 else 0
+        return tot_price
+
+    return dict(map(lambda order: (order[0], compute_total_price(order[2], order[3])), orders))
+
+orders = [
+    (1, "Mleko", 2, 50),
+    (2, "Hleb", 3, 30),
+    (3, "Jaja", 1, 20),
+    (4, "Sir", 1, 150)
+]
+
+print("Rezultat procesiranja porudžbina metodom 1:")
+print(process_product_orders1(orders))
+print("\nRezultat procesiranja porudžbina metodom 2:")
+print(process_product_orders2(orders))
+print("\nRezultat procesiranja porudžbina metodom 3:")
+print(process_product_orders3(orders))
+
+#%%
+
+
+
+
+
+#%%
+
+
+
+
+
+#%%
+
+
+
+
+
+#%%
+
+
+
+
+
+#%%
+
+
+
+
+
+#%%
+
+
+
+
+
+#%%
+
+
+
+
+
+#%%
+
+
+
+
+#%%
