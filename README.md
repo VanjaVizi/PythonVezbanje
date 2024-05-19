@@ -4,6 +4,7 @@ Ovaj projekat je namenjen kao propratni materijal na kursu Programiranje 2 (po N
 2. osnovni zadaci - primeri sa listama, funkcijama, fajlovima...
 3. rečnici
 4. lambda izrazi i funkcije map, filter, reduce
+5. OOP
 
 
 
