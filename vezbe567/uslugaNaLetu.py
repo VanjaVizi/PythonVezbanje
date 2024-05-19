@@ -1,0 +1,40 @@
+from enum import Enum
+from sys import stderr
+
+class UslugaNaLetu(Enum):
+
+    SEDISTE = 'Izbor sedista'
+    OBROK = 'Obrok'
+    WIFI = 'Wifi'
+    OSIGURANJE = 'Osiguranje leta'
+    BRZO_UKRCAVANJE = 'Prioritetno ukrcavanje'
+
+
+
+    @staticmethod
+    def get_service_from_str(value):  #sediste
+        if not isinstance(value, str):
+            stderr.write("Iz get_service_from_str: pogresan ulazni argument, potrebno je uneti string\n")
+            return None
+
+        for usluga in UslugaNaLetu:
+            if value.lower() in [usluga.name.lower(), usluga.value.lower()]:
+                return usluga
+        return None
+
+
+
+
+
+    @staticmethod
+    def valid_service_str(value):
+        if not isinstance(value,str):
+            return False
+        for element in UslugaNaLetu:
+            if element.name.lower() == value.lower() or element.value.lower() == value.lower():
+                return True
+        return False
+
+        #return isinstance(value, str) and \
+        #    any([value.lower() in [usluga.name.lower(), usluga.value.lower()] for usluga in UslugaNaLetu])
+
