@@ -5,7 +5,7 @@ Ovaj projekat je namenjen kao propratni materijal na kursu Programiranje 2 (po N
 3. rečnici
 4. lambda izrazi i funkcije map, filter, reduce
 5. OOP
-
+6. PANDAS + jupiter
 
 
 
