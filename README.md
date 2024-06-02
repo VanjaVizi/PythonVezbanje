@@ -6,6 +6,7 @@ Ovaj projekat je namenjen kao propratni materijal na kursu Programiranje 2 (po N
 4. lambda izrazi i funkcije map, filter, reduce
 5. OOP
 6. PANDAS + jupiter
+7.  WEB SCRAPING
 
 
 
