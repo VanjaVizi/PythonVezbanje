@@ -1,0 +1,3 @@
+Naslov: Harry Potter, Autor: J.K. Rowling,1997
+Naslov: Lord of the Rings, Autor: J.R.R. Tolkien,1954
+Naslov: Pride and Prejudice, Autor: Jane Austen,1813
